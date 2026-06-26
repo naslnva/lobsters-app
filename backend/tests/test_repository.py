@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 # SET UP AN ISOLATED, SEEDED TEST DATABASE
 # ─────────────────────────────────────────────
 
-TEST_DB_PATH = os.path.join(os.path.dirname(__file__), "test_lobsters.db")
+TEST_DB_PATH = os.path.join(os.path.dirname(__file__), f"test_lobsters_{os.getpid()}.db")
 if os.path.exists(TEST_DB_PATH):
     os.remove(TEST_DB_PATH)
 
@@ -124,6 +124,8 @@ if failed == 0:
     print("🎉 All repository tests passed!")
 else:
     print("⚠️  Some tests failed. Complete the TODOs in app/repository.py")
+
+db_module.engine.dispose()
 
 if os.path.exists(TEST_DB_PATH):
     os.remove(TEST_DB_PATH)

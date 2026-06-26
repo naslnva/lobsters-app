@@ -42,7 +42,17 @@ def get_top_posts(limit: int = 10) -> list:
         - Close the session: session.close()
         - Return posts
     """
-    pass  # Remove this line when you implement the function
+    session = get_session()
+    try:
+        posts = (
+            session.query(Post)
+            .order_by(Post.score.desc())
+            .limit(limit)
+            .all()
+        )
+        return posts
+    finally:
+        session.close()
 
 
 def get_post_by_id(post_id: str):
@@ -61,7 +71,12 @@ def get_post_by_id(post_id: str):
         - Close the session: session.close()
         - Return post
     """
-    pass  # Remove this line when you implement the function
+    session = get_session()
+    try:
+        post = session.query(Post).filter_by(post_id=post_id).first()
+        return post
+    finally:
+        session.close()
 
 
 def count_posts() -> int:
@@ -78,4 +93,8 @@ def count_posts() -> int:
         - Close the session: session.close()
         - Return count
     """
-    pass  # Remove this line when you implement the function
+    session = get_session()
+    try:
+        return session.query(Post).count()
+    finally:
+        session.close()

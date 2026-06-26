@@ -14,13 +14,14 @@ This file points at the SAME lobsters.db file as the pipeline.
 
 import os
 from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
 from sqlalchemy.orm import sessionmaker
 
 # Same database file as the pipeline — project root.
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "lobsters.db")
 DATABASE_URL = f"sqlite:///{DB_PATH}"
 
-engine = create_engine(DATABASE_URL, echo=False)
+engine = create_engine(DATABASE_URL, echo=False, poolclass=NullPool)
 SessionLocal = sessionmaker(bind=engine)
 
 
@@ -35,4 +36,4 @@ def get_session():
     TODO:
         - Return SessionLocal()
     """
-    pass  # Remove this line when you implement the function
+    return SessionLocal()
